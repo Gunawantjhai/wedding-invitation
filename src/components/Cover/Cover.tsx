@@ -67,11 +67,17 @@ export function Cover({ isOpen, guestName, onOpen }: CoverProps) {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.85, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
-              className="mt-4 font-display text-5xl italic leading-tight sm:text-6xl"
+              className="mt-4 font-display text-4xl italic leading-tight tracking-tight sm:text-5xl md:text-6xl whitespace-normal"
             >
-              {content.couple.groomFirstName}
-              <span className="mx-3 text-gold-300 not-italic">&amp;</span>
-              {content.couple.brideFirstName}
+              <span className="inline-block break-words">
+                {content.couple.groomFirstName}
+              </span>
+              <span className="mx-2 inline-block text-gold-300 not-italic sm:mx-3">
+                &amp;
+              </span>
+              <span className="inline-block break-words">
+                {content.couple.brideFirstName}
+              </span>
             </motion.h1>
 
             <motion.div
