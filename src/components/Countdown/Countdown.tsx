@@ -29,7 +29,8 @@ export function Countdown() {
   const params = useParams<{ locale?: string }>();
   const content = getWeddingContent(params.locale);
   const countdown = useCountdown(content.couple.weddingDateISO);
-  const googleCalendarUrl = buildGoogleCalendarUrl(content.events[0]);
+  const firstEvent = content.events[0];
+  const googleCalendarUrl = firstEvent ? buildGoogleCalendarUrl(firstEvent) : "";
 
   return (
     <section className="relative overflow-hidden bg-wine-gradient py-24 sm:py-32">
@@ -60,16 +61,18 @@ export function Countdown() {
           <CountdownUnit value={countdown.seconds} label={content.copy.countdown.labels.seconds} />
         </motion.div>
 
-        <a
-          href={googleCalendarUrl}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="mt-8"
-        >
-          <Button variant="outline" icon={<CalendarDays size={14} aria-hidden />}>
-            Save the Date
-          </Button>
-        </a>
+        {googleCalendarUrl ? (
+          <a
+            href={googleCalendarUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-8"
+          >
+            <Button variant="outline" icon={<CalendarDays size={14} aria-hidden />}>
+              Save the Date
+            </Button>
+          </a>
+        ) : null}
       </Container>
     </section>
   );

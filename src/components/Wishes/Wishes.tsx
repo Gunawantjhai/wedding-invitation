@@ -29,8 +29,10 @@ export function Wishes({
 
   useEffect(() => {
     const mq = window.matchMedia("(min-width: 720px)");
-    const handler = (e: any) => setPerPage(e.matches ? 6 : 3);
-    handler(mq);
+    const updatePerPage = (matches: boolean) => setPerPage(matches ? 6 : 3);
+    updatePerPage(mq.matches);
+
+    const handler = (e: MediaQueryListEvent) => updatePerPage(e.matches);
     if (mq.addEventListener) mq.addEventListener("change", handler);
     else mq.addListener(handler);
     return () => {

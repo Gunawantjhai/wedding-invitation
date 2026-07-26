@@ -1,7 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { CalendarDays, Clock, MapPin } from "lucide-react";
+import { MapPin } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import type { WeddingContent } from "@/i18n/locales";
 import type { WeddingEvent } from "@/types";
