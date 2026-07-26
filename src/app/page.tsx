@@ -1,11 +1,5 @@
-import { Suspense } from "react";
-import { HomeContent } from "./HomeContent";
-import { PageLoader } from "@/components/ui/PageLoader";
+import { redirect } from "next/navigation";
 
 export default function Page() {
-  return (
-    <Suspense fallback={<PageLoader />}>
-      <HomeContent />
-    </Suspense>
-  );
+  redirect("/id");
 }

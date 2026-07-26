@@ -1,14 +1,17 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { useParams } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { CountdownUnit } from "@/components/Countdown/CountdownUnit";
 import { useCountdown } from "@/hooks/useCountdown";
-import { COUPLE } from "@/constants/wedding";
+import { getWeddingContent } from "@/i18n/locales";
 
 export function Countdown() {
-  const countdown = useCountdown(COUPLE.weddingDateISO);
+  const params = useParams<{ locale?: string }>();
+  const content = getWeddingContent(params.locale);
+  const countdown = useCountdown(content.couple.weddingDateISO);
 
   return (
     <section className="relative overflow-hidden bg-wine-gradient py-24 sm:py-32">
@@ -17,12 +20,12 @@ export function Countdown() {
         <SectionHeading
           light
           glyph="緣"
-          eyebrow="Save The Date"
-          title="Counting Down To Forever"
+          eyebrow={content.copy.countdown.eyebrow}
+          title={content.copy.countdown.title}
           subtitle={
             countdown.isComplete
-              ? "Today is the day — thank you for being part of our story."
-              : "We can't wait to celebrate this moment with you."
+              ? content.copy.countdown.subtitleComplete
+              : content.copy.countdown.subtitleActive
           }
         />
 
@@ -33,10 +36,10 @@ export function Countdown() {
           transition={{ duration: 0.8, delay: 0.2 }}
           className="mt-12 flex items-center gap-3 sm:gap-6"
         >
-          <CountdownUnit value={countdown.days} label="Days" />
-          <CountdownUnit value={countdown.hours} label="Hours" />
-          <CountdownUnit value={countdown.minutes} label="Minutes" />
-          <CountdownUnit value={countdown.seconds} label="Seconds" />
+          <CountdownUnit value={countdown.days} label={content.copy.countdown.labels.days} />
+          <CountdownUnit value={countdown.hours} label={content.copy.countdown.labels.hours} />
+          <CountdownUnit value={countdown.minutes} label={content.copy.countdown.labels.minutes} />
+          <CountdownUnit value={countdown.seconds} label={content.copy.countdown.labels.seconds} />
         </motion.div>
       </Container>
     </section>

@@ -6,7 +6,7 @@ import { Instagram } from "lucide-react";
 import type { PersonProfile } from "@/types";
 
 interface ProfileCardProps {
-  role: "Groom" | "Bride";
+  role: string;
   roleLabelCn: string;
   person: PersonProfile;
   align: "left" | "right";

@@ -3,21 +3,24 @@
 import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useParams } from "next/navigation";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { GALLERY_IMAGES } from "@/constants/wedding";
+import { getWeddingContent } from "@/i18n/locales";
 
 export function Gallery() {
+  const params = useParams<{ locale?: string }>();
+  const content = getWeddingContent(params.locale);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
 
   const close = () => setActiveIndex(null);
   const showPrev = () =>
     setActiveIndex((i) =>
-      i === null ? null : (i - 1 + GALLERY_IMAGES.length) % GALLERY_IMAGES.length
+      i === null ? null : (i - 1 + content.gallery.length) % content.gallery.length
     );
   const showNext = () =>
-    setActiveIndex((i) => (i === null ? null : (i + 1) % GALLERY_IMAGES.length));
+    setActiveIndex((i) => (i === null ? null : (i + 1) % content.gallery.length));
 
   return (
     <section className="bg-ink py-24 sm:py-32">
@@ -25,14 +28,13 @@ export function Gallery() {
         <SectionHeading
           light
           glyph="影"
-          eyebrow="Our Moments"
-          title="Gallery"
-          subtitle="Sebuah kilasan perjalanan cinta kami, diabadikan dalam frame."
+          eyebrow={content.copy.gallery.eyebrow}
+          title={content.copy.gallery.title}
+          subtitle={content.copy.gallery.subtitle}
         />
 
-        {/* Masonry layout via CSS columns — simple, dependency-free, and fast */}
         <div className="mt-14 columns-2 gap-3 sm:columns-3 sm:gap-4">
-          {GALLERY_IMAGES.map((image, index) => (
+          {content.gallery.map((image, index) => (
             <motion.button
               key={image.id}
               type="button"
@@ -43,7 +45,7 @@ export function Gallery() {
               transition={{ duration: 0.6, delay: (index % 6) * 0.06 }}
               className="group relative mb-3 block w-full overflow-hidden rounded-xl sm:mb-4"
               style={{ breakInside: "avoid" }}
-              aria-label={`Open photo: ${image.alt}`}
+              aria-label={`${content.copy.gallery.openPreviewPrefix}: ${image.alt}`}
             >
               <Image
                 src={image.src}
@@ -61,10 +63,11 @@ export function Gallery() {
 
       {activeIndex !== null && (
         <Lightbox
-          image={GALLERY_IMAGES[activeIndex]!}
+          image={content.gallery[activeIndex]!}
           onClose={close}
           onPrev={showPrev}
           onNext={showNext}
+          content={content}
         />
       )}
     </section>
@@ -76,11 +79,13 @@ function Lightbox({
   onClose,
   onPrev,
   onNext,
+  content,
 }: {
-  image: (typeof GALLERY_IMAGES)[number];
+  image: (typeof content.gallery)[number];
   onClose: () => void;
   onPrev: () => void;
   onNext: () => void;
+  content: ReturnType<typeof getWeddingContent>;
 }) {
   return (
     <motion.div
@@ -95,7 +100,7 @@ function Lightbox({
       <button
         onClick={onClose}
         className="absolute right-5 top-5 text-ivory/80 transition-colors hover:text-gold-300"
-        aria-label="Close preview"
+        aria-label={content.copy.gallery.closeLabel}
       >
         <X size={26} />
       </button>
@@ -106,7 +111,7 @@ function Lightbox({
           onPrev();
         }}
         className="absolute left-3 text-ivory/80 transition-colors hover:text-gold-300 sm:left-8"
-        aria-label="Previous photo"
+        aria-label={content.copy.gallery.prevLabel}
       >
         <ChevronLeft size={32} />
       </button>
@@ -134,7 +139,7 @@ function Lightbox({
           onNext();
         }}
         className="absolute right-3 text-ivory/80 transition-colors hover:text-gold-300 sm:right-8"
-        aria-label="Next photo"
+        aria-label={content.copy.gallery.nextLabel}
       >
         <ChevronRight size={32} />
       </button>

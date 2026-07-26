@@ -51,13 +51,20 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
+import { normalizeLocale } from "@/i18n/locales";
+
 export default function RootLayout({
   children,
+  params,
 }: {
   children: React.ReactNode;
+  params: { locale?: string };
 }) {
+  const locale = normalizeLocale(params.locale);
+  const htmlLang = locale === "ch" ? "zh" : locale;
+
   return (
-    <html lang="id" className={`${playfair.variable} ${notoSerifSC.variable} ${jost.variable}`}>
+    <html lang={htmlLang} className={`${playfair.variable} ${notoSerifSC.variable} ${jost.variable}`}>
       <body>
         <MusicProvider>{children}</MusicProvider>
       </body>

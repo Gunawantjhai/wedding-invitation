@@ -1,11 +1,13 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
+import { useParams } from "next/navigation";
 import { Loader2, MessageCircleHeart } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { WishCard } from "@/components/Wishes/WishCard";
 import { fetchGuestWishes } from "@/lib/rsvp";
+import { getWeddingContent } from "@/i18n/locales";
 import type { GuestWish } from "@/types";
 
 export interface WishesHandle {
@@ -15,9 +17,10 @@ export interface WishesHandle {
 export function Wishes({
   refreshSignal,
 }: {
-  /** Bump this number from a parent to trigger a refetch (e.g. after RSVP). */
   refreshSignal?: number;
 }) {
+  const params = useParams<{ locale?: string }>();
+  const content = getWeddingContent(params.locale);
   const [wishes, setWishes] = useState<GuestWish[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
@@ -37,9 +40,9 @@ export function Wishes({
       <Container>
         <SectionHeading
           glyph="言"
-          eyebrow="From Our Loved Ones"
-          title="Guest Wishes"
-          subtitle="Doa dan ucapan dari keluarga serta sahabat tercinta."
+          eyebrow={content.copy.wishes.eyebrow}
+          title={content.copy.wishes.title}
+          subtitle={content.copy.wishes.subtitle}
         />
 
         <div className="mt-14">
@@ -53,7 +56,7 @@ export function Wishes({
             <div className="flex flex-col items-center py-10 text-center text-ink/50">
               <MessageCircleHeart size={28} aria-hidden />
               <p className="mt-3 text-sm">
-                Be the first to leave a message for the couple.
+                {content.copy.wishes.emptyState}
               </p>
             </div>
           )}

@@ -6,6 +6,7 @@ import { Loader2, Send, CheckCircle2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { submitRSVP, RSVPServiceError } from "@/lib/rsvp";
 import type { AttendanceStatus, RSVPFormState } from "@/types";
+import type { WeddingContent } from "@/i18n/locales";
 
 const initialState: RSVPFormState = {
   guest_name: "",
@@ -16,9 +17,10 @@ const initialState: RSVPFormState = {
 
 interface RSVPFormProps {
   onSubmitted?: () => void;
+  content: WeddingContent;
 }
 
-export function RSVPForm({ onSubmitted }: RSVPFormProps) {
+export function RSVPForm({ onSubmitted, content }: RSVPFormProps) {
   const [form, setForm] = useState<RSVPFormState>(initialState);
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
     "idle"
@@ -40,7 +42,7 @@ export function RSVPForm({ onSubmitted }: RSVPFormProps) {
       setErrorMessage(
         err instanceof RSVPServiceError
           ? err.message
-          : "Something went wrong. Please try again."
+          : content.copy.rsvp.errorFallback
       );
     }
   };
@@ -54,17 +56,16 @@ export function RSVPForm({ onSubmitted }: RSVPFormProps) {
       >
         <CheckCircle2 className="text-wine-600" size={40} aria-hidden />
         <h3 className="mt-4 font-display text-2xl italic text-wine-700">
-          Thank You!
+          {content.copy.rsvp.successTitle}
         </h3>
         <p className="mt-2 max-w-xs text-sm text-ink/65">
-          Your response has been recorded. We truly appreciate you taking the
-          time to confirm.
+          {content.copy.rsvp.successSubtitle}
         </p>
         <button
           onClick={() => setStatus("idle")}
           className="mt-6 text-xs uppercase tracking-widest2 text-wine-500 underline-offset-4 hover:underline"
         >
-          Submit another response
+          {content.copy.rsvp.submitAnother}
         </button>
       </motion.div>
     );
@@ -75,23 +76,23 @@ export function RSVPForm({ onSubmitted }: RSVPFormProps) {
       onSubmit={handleSubmit}
       className="space-y-5 rounded-2xl border border-gold-400/30 bg-white/70 p-6 shadow-soft sm:p-8"
     >
-      <Field label="Your Name">
+      <Field label={content.copy.rsvp.nameLabel}>
         <input
           required
           type="text"
           value={form.guest_name}
           onChange={(e) => setForm({ ...form, guest_name: e.target.value })}
-          placeholder="Enter your full name"
+          placeholder={content.copy.rsvp.namePlaceholder}
           className="input"
         />
       </Field>
 
-      <Field label="Will you attend?">
+      <Field label={content.copy.rsvp.attendanceLabel}>
         <div className="grid grid-cols-2 gap-3">
           {(
             [
-              { value: "attending", label: "Joyfully Attending" },
-              { value: "not_attending", label: "Regretfully Decline" },
+              { value: "attending", label: content.copy.rsvp.attendingOption },
+              { value: "not_attending", label: content.copy.rsvp.declineOption },
             ] as { value: AttendanceStatus; label: string }[]
           ).map((option) => (
             <button
@@ -111,7 +112,7 @@ export function RSVPForm({ onSubmitted }: RSVPFormProps) {
       </Field>
 
       {form.attendance === "attending" && (
-        <Field label="Number of Guests">
+        <Field label={content.copy.rsvp.guestCountLabel}>
           <select
             value={form.guest_count}
             onChange={(e) =>
@@ -121,18 +122,18 @@ export function RSVPForm({ onSubmitted }: RSVPFormProps) {
           >
             {[1, 2, 3, 4].map((n) => (
               <option key={n} value={n}>
-                {n} {n === 1 ? "Person" : "People"}
+                {n} {n === 1 ? content.copy.rsvp.personSingular : content.copy.rsvp.personPlural}
               </option>
             ))}
           </select>
         </Field>
       )}
 
-      <Field label="Message For The Couple">
+      <Field label={content.copy.rsvp.messageLabel}>
         <textarea
           value={form.message}
           onChange={(e) => setForm({ ...form, message: e.target.value })}
-          placeholder="Send your blessings and best wishes..."
+          placeholder={content.copy.rsvp.messagePlaceholder}
           rows={4}
           className="input resize-none"
         />
@@ -157,7 +158,7 @@ export function RSVPForm({ onSubmitted }: RSVPFormProps) {
           )
         }
       >
-        {status === "loading" ? "Sending..." : "Submit RSVP"}
+        {status === "loading" ? content.copy.rsvp.sendingLabel : content.copy.rsvp.submitLabel}
       </Button>
 
       <style jsx>{`

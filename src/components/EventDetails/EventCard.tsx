@@ -3,9 +3,10 @@
 import { motion } from "framer-motion";
 import { CalendarDays, Clock, MapPin } from "lucide-react";
 import { Button } from "@/components/ui/Button";
+import type { WeddingContent } from "@/i18n/locales";
 import type { WeddingEvent } from "@/types";
 
-export function EventCard({ event, index }: { event: WeddingEvent; index: number }) {
+export function EventCard({ event, index, content }: { event: WeddingEvent; index: number; content: WeddingContent }) {
   return (
     <motion.div
       initial={{ opacity: 0, y: 32 }}
@@ -51,7 +52,7 @@ export function EventCard({ event, index }: { event: WeddingEvent; index: number
         className="mt-8"
       >
         <Button variant="outline" icon={<MapPin size={14} aria-hidden />}>
-          Open Maps
+          {content.copy.events.mapsButton}
         </Button>
       </a>
     </motion.div>

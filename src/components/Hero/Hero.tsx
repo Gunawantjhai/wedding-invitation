@@ -2,16 +2,21 @@
 
 import Image from "next/image";
 import { motion } from "framer-motion";
+import { useParams } from "next/navigation";
 import { Container } from "@/components/ui/Container";
 import { COUPLE } from "@/constants/wedding";
+import { getWeddingContent } from "@/i18n/locales";
 
 export function Hero() {
+  const params = useParams<{ locale?: string }>();
+  const content = getWeddingContent(params.locale);
+
   return (
     <section className="relative flex min-h-[100dvh] items-center overflow-hidden bg-ink py-24">
       <div className="absolute inset-0">
         <Image
           src={COUPLE.heroImage}
-          alt={`${COUPLE.groomFirstName} and ${COUPLE.brideFirstName}`}
+          alt={content.copy.hero.alt}
           fill
           className="object-cover"
           sizes="100vw"
@@ -38,9 +43,9 @@ export function Hero() {
           transition={{ duration: 1, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
           className="mt-6 font-display text-4xl italic text-ivory sm:text-6xl"
         >
-          {COUPLE.groomFirstName}
+          {content.couple.groomFirstName}
           <span className="mx-4 text-gold-300 not-italic">&amp;</span>
-          {COUPLE.brideFirstName}
+          {content.couple.brideFirstName}
         </motion.h1>
 
         <motion.div
@@ -58,7 +63,7 @@ export function Hero() {
           transition={{ duration: 0.9, delay: 0.6 }}
           className="mx-auto mt-8 max-w-xl text-base italic leading-loose text-ivory/85 sm:text-lg"
         >
-          &ldquo;{COUPLE.quote}&rdquo;
+          &ldquo;{content.couple.quote}&rdquo;
         </motion.p>
       </Container>
     </section>

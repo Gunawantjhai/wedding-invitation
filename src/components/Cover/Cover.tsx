@@ -3,9 +3,11 @@
 import Image from "next/image";
 import { AnimatePresence, motion } from "framer-motion";
 import { Music, Volume2 } from "lucide-react";
+import { useParams } from "next/navigation";
 import { OrnamentFrame } from "@/components/ui/OrnamentFrame";
 import { useMusic } from "@/components/MusicPlayer/MusicProvider";
 import { COUPLE } from "@/constants/wedding";
+import { getWeddingContent } from "@/i18n/locales";
 
 interface CoverProps {
   isOpen: boolean;
@@ -13,11 +15,9 @@ interface CoverProps {
   onOpen: () => void;
 }
 
-/**
- * Full-screen invitation cover — the "envelope" the guest opens. Disappears
- * upward once opened, revealing the rest of the page beneath it.
- */
 export function Cover({ isOpen, guestName, onOpen }: CoverProps) {
+  const params = useParams<{ locale?: string }>();
+  const content = getWeddingContent(params.locale);
   const music = useMusic();
 
   const handleOpen = () => {
@@ -44,7 +44,6 @@ export function Cover({ isOpen, guestName, onOpen }: CoverProps) {
 
           <OrnamentFrame />
 
-          {/* Floating music note, purely decorative until opened */}
           <div className="relative z-10 flex flex-1 flex-col items-center justify-center px-6 text-center">
             <motion.p
               initial={{ opacity: 0, y: -10 }}
@@ -61,7 +60,7 @@ export function Cover({ isOpen, guestName, onOpen }: CoverProps) {
               transition={{ delay: 0.6, duration: 0.8 }}
               className="text-xs uppercase tracking-widest2 text-gold-200/80"
             >
-              The Wedding Of
+              {content.copy.cover.intro}
             </motion.p>
 
             <motion.h1
@@ -70,9 +69,9 @@ export function Cover({ isOpen, guestName, onOpen }: CoverProps) {
               transition={{ delay: 0.85, duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
               className="mt-4 font-display text-5xl italic leading-tight sm:text-6xl"
             >
-              {COUPLE.groomFirstName}
+              {content.couple.groomFirstName}
               <span className="mx-3 text-gold-300 not-italic">&amp;</span>
-              {COUPLE.brideFirstName}
+              {content.couple.brideFirstName}
             </motion.h1>
 
             <motion.div
@@ -88,7 +87,7 @@ export function Cover({ isOpen, guestName, onOpen }: CoverProps) {
               transition={{ delay: 1.4, duration: 0.8 }}
               className="mt-6 text-sm tracking-wide text-ivory/80 sm:text-base"
             >
-              {COUPLE.weddingDateDisplay}
+              {content.couple.weddingDateDisplay}
             </motion.p>
 
             {guestName && (
@@ -98,7 +97,7 @@ export function Cover({ isOpen, guestName, onOpen }: CoverProps) {
                 transition={{ delay: 1.6, duration: 0.8 }}
                 className="mt-8 text-xs uppercase tracking-widest2 text-gold-200/70"
               >
-                Kepada Yth. Bapak/Ibu/Saudara/i
+                {content.copy.cover.guestLabel}
                 <span className="mt-1 block font-display text-lg italic text-ivory">
                   {guestName}
                 </span>
@@ -117,11 +116,11 @@ export function Cover({ isOpen, guestName, onOpen }: CoverProps) {
               className="group inline-flex items-center gap-3 rounded-full bg-gold-gradient px-8 py-3.5 text-sm uppercase tracking-widest2 text-wine-800 shadow-gold transition-transform duration-300 hover:scale-[1.03] active:scale-95"
             >
               <Volume2 size={16} className="shrink-0" aria-hidden />
-              Open Invitation
+              {content.copy.cover.openButton}
             </button>
             <p className="flex items-center gap-1.5 text-[11px] text-ivory/50">
               <Music size={12} aria-hidden />
-              Best viewed with sound on
+              {content.copy.cover.soundHint}
             </p>
           </motion.div>
         </motion.section>

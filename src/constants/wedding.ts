@@ -13,10 +13,10 @@ import type {
 
 export const COUPLE = {
   groomFirstName: "Gunawan",
-  brideFirstName: "Vyro",
+  brideFirstName: "Vyronika",
   hashtag: "#GunawanVyro2027",
-  weddingDateISO: "2027-09-12T10:00:00+07:00",
-  weddingDateDisplay: "12 September 2027",
+  weddingDateISO: "2027-01-24T10:00:00+07:00",
+  weddingDateDisplay: "24 Januari 2027",
   coverImage: "/images/cover.jpg",
   heroImage: "/images/hero.jpg",
   quote:
@@ -24,24 +24,24 @@ export const COUPLE = {
 };
 
 export const GROOM: PersonProfile = {
-  fullName: "Gunawan Wijaya",
+  fullName: "Gunawan",
   nickname: "Gunawan",
-  childOrder: "Putra pertama dari",
+  childOrder: "Putra bungsu dari",
   parents: {
-    father: "Bapak Tan Kok Liong",
-    mother: "Ibu Lim Mei Hwa",
+    father: "Bapak Cua Hok Seng (Alm)",
+    mother: "Ibu Ng A Hiok (Alm)",
   },
   photo: "/images/groom.jpg",
   instagram: "@gunawan.w",
 };
 
 export const BRIDE: PersonProfile = {
-  fullName: "Vyro Anggraini",
+  fullName: "Vyronika",
   nickname: "Vyro",
-  childOrder: "Putri kedua dari",
+  childOrder: "Putri bungsu dari",
   parents: {
-    father: "Bapak Ong Tjen Hong",
-    mother: "Ibu Sunarti Wijaya",
+    father: "Bapak Huang Se Leng",
+    mother: "Ibu Tan A Pin",
   },
   photo: "/images/bride.jpg",
   instagram: "@vyro.a",
@@ -83,23 +83,23 @@ export const EVENTS: WeddingEvent[] = [
     id: "matrimony",
     name: "Holy Matrimony",
     subtitle: "Pemberkatan Pernikahan",
-    date: "2027-09-12T09:00:00+07:00",
-    displayDate: "Minggu, 12 September 2027",
-    time: "09:00 – 10:30 WIB",
-    venueName: "Gereja Santo Yusuf",
-    venueAddress: "Jl. Merdeka No. 88, Pematangsiantar, Sumatera Utara",
-    mapsUrl: "https://maps.google.com/?q=Gereja+Santo+Yusuf+Pematangsiantar",
+    date: "2027-01-24T09:00:00+07:00",
+    displayDate: "Minggu, 24 Januari 2027",
+    time: "11:00 – 13:00 WIB",
+    venueName: "The Zuri Hotel Pekanbaru by ZHM",
+    venueAddress: "Kompleks Transmart, Jl. Soekarno-Hatta, Pekanbaru - Riau",
+    mapsUrl: "https://maps.app.goo.gl/hY1rGaRh65wPVKZR7",
   },
   {
     id: "reception",
     name: "Wedding Reception",
     subtitle: "Resepsi Pernikahan",
-    date: "2027-09-12T18:00:00+07:00",
-    displayDate: "Minggu, 12 September 2027",
-    time: "18:00 – 21:00 WIB",
-    venueName: "Grand Antares Ballroom",
-    venueAddress: "Jl. Sisingamangaraja No. 21, Pematangsiantar, Sumatera Utara",
-    mapsUrl: "https://maps.google.com/?q=Grand+Antares+Ballroom+Pematangsiantar",
+    date: "2027-01-24T09:00:00+07:00",
+    displayDate: "Minggu, 24 Januari 2027",
+    time: "11:00 – 13:00 WIB",
+    venueName: "Grand Ballroom - The Zuri Hotel Pekanbaru by ZHM",
+    venueAddress: "Kompleks Transmart, Jl. Soekarno-Hatta, Pekanbaru - Riau",
+    mapsUrl: "https://maps.app.goo.gl/hY1rGaRh65wPVKZR7",
   },
 ];
 
@@ -131,7 +131,7 @@ export const BANK_ACCOUNTS: BankAccount[] = [
 export const MUSIC_TRACK_URL = "/audio/wedding-theme.mp3";
 
 export const SITE_META = {
-  title: "Gunawan & Vyro — Wedding Invitation",
+  title: "Gunawan & Vyronika — Wedding Invitation",
   description:
     "Undangan pernikahan digital Gunawan & Vyro, 12 September 2027. Dengan penuh syukur, kami mengundang Bapak/Ibu/Saudara/i untuk turut hadir merayakan hari bahagia kami.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://gunawan-vyro.wedding",
