@@ -17,7 +17,7 @@ export function useInViewOnce<T extends HTMLElement>(threshold = 0.2) {
 
     const observer = new IntersectionObserver(
       ([entry]) => {
-        if (entry.isIntersecting) {
+        if (entry && entry.isIntersecting) {
           setIsInView(true);
           observer.disconnect();
         }
