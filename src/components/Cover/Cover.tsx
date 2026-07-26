@@ -38,6 +38,8 @@ export function Cover({ isOpen, guestName, onOpen }: CoverProps) {
             alt=""
             fill
             priority
+            quality={70}
+            sizes="100vw"
             className="object-cover opacity-40"
           />
           <div className="absolute inset-0 bg-wine-gradient opacity-80" />

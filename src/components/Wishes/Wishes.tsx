@@ -2,7 +2,7 @@
 
 import { useCallback, useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { Loader2, MessageCircleHeart } from "lucide-react";
+import { ChevronLeft, ChevronRight, Loader2, MessageCircleHeart } from "lucide-react";
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
 import { WishCard } from "@/components/Wishes/WishCard";
@@ -23,6 +23,29 @@ export function Wishes({
   const content = getWeddingContent(params.locale);
   const [wishes, setWishes] = useState<GuestWish[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const [page, setPage] = useState(1);
+
+  const [perPage, setPerPage] = useState(3);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(min-width: 720px)");
+    const handler = (e: any) => setPerPage(e.matches ? 6 : 3);
+    handler(mq);
+    if (mq.addEventListener) mq.addEventListener("change", handler);
+    else mq.addListener(handler);
+    return () => {
+      if (mq.removeEventListener) mq.removeEventListener("change", handler);
+      else mq.removeListener(handler);
+    };
+  }, []);
+
+  useEffect(() => {
+    setPage(1);
+  }, [perPage]);
+
+  const totalPages = Math.max(1, Math.ceil(wishes.length / perPage));
+  const startIndex = (page - 1) * perPage;
+  const visibleWishes = wishes.slice(startIndex, startIndex + perPage);
 
   const load = useCallback(async () => {
     setIsLoading(true);
@@ -34,6 +57,10 @@ export function Wishes({
   useEffect(() => {
     load();
   }, [load, refreshSignal]);
+
+  useEffect(() => {
+    setPage(1);
+  }, [wishes.length]);
 
   return (
     <section className="bg-ivory py-24 sm:py-32">
@@ -62,13 +89,43 @@ export function Wishes({
           )}
 
           {!isLoading && wishes.length > 0 && (
-            <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
-              {wishes.map((wish, index) => (
-                <div key={wish.id} className="mb-4">
-                  <WishCard wish={wish} index={index} />
+            <>
+              <div className="columns-1 gap-4 sm:columns-2 lg:columns-3">
+                {visibleWishes.map((wish, index) => (
+                  <div key={wish.id} className="mb-4">
+                    <WishCard wish={wish} index={startIndex + index} />
+                  </div>
+                ))}
+              </div>
+
+              {totalPages > 1 && (
+                <div className="mt-8 flex items-center justify-center gap-3">
+                  <button
+                    type="button"
+                    onClick={() => setPage((current) => Math.max(1, current - 1))}
+                    disabled={page === 1}
+                    className="rounded-full border border-gold-400/40 bg-white/80 p-2 text-wine-600 transition disabled:cursor-not-allowed disabled:opacity-50"
+                    aria-label="Previous wishes"
+                  >
+                    <ChevronLeft size={18} />
+                  </button>
+
+                  <span className="text-sm text-ink/60">
+                    {page} / {totalPages}
+                  </span>
+
+                  <button
+                    type="button"
+                    onClick={() => setPage((current) => Math.min(totalPages, current + 1))}
+                    disabled={page === totalPages}
+                    className="rounded-full border border-gold-400/40 bg-white/80 p-2 text-wine-600 transition disabled:cursor-not-allowed disabled:opacity-50"
+                    aria-label="Next wishes"
+                  >
+                    <ChevronRight size={18} />
+                  </button>
                 </div>
-              ))}
-            </div>
+              )}
+            </>
           )}
         </div>
       </Container>

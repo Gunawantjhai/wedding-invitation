@@ -52,8 +52,10 @@ export function Gallery() {
                 alt={image.alt}
                 width={image.width * 100}
                 height={image.height * 100}
-                className="h-auto w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
+                loading="lazy"
+                quality={75}
                 sizes="(max-width: 640px) 50vw, 33vw"
+                className="h-auto w-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />
               <div className="absolute inset-0 bg-ink/0 transition-colors duration-300 group-hover:bg-ink/20" />
             </motion.button>
@@ -87,6 +89,10 @@ function Lightbox({
   onNext: () => void;
   content: ReturnType<typeof getWeddingContent>;
 }) {
+  const aspectRatio = image.width / image.height;
+  const lightboxWidth = Math.min(image.width, 1400);
+  const lightboxHeight = Math.round(lightboxWidth / aspectRatio);
+
   return (
     <motion.div
       initial={{ opacity: 0 }}
@@ -127,8 +133,12 @@ function Lightbox({
         <Image
           src={image.src}
           alt={image.alt}
-          width={image.width * 200}
-          height={image.height * 200}
+          width={lightboxWidth}
+          height={lightboxHeight}
+          priority
+          loading="eager"
+          quality={85}
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 90vw, 80vw"
           className="h-auto max-h-[85vh] w-full rounded-lg object-contain"
         />
       </motion.div>

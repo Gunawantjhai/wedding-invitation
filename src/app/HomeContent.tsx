@@ -19,17 +19,23 @@ let coverOpened = false;
 
 export function HomeContent() {
   const [isOpen, setIsOpen] = useState(coverOpened);
+  const [isHydrated, setIsHydrated] = useState(false);
   const [wishesRefresh, setWishesRefresh] = useState(0);
   const searchParams = useSearchParams();
   const guestName = getGuestNameFromSearchParams(searchParams);
 
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
   // Lock body scroll while the cover is showing
   useEffect(() => {
+    if (!isHydrated) return;
     document.body.style.overflow = isOpen ? "auto" : "hidden";
     return () => {
       document.body.style.overflow = "auto";
     };
-  }, [isOpen]);
+  }, [isHydrated, isOpen]);
 
   const handleOpen = () => {
     coverOpened = true;

@@ -29,19 +29,16 @@ export function EventCard({ event, index, content }: { event: WeddingEvent; inde
 
       <div className="mt-6 space-y-3 text-sm text-ink/75">
         <div className="flex items-center justify-center gap-2">
-          <CalendarDays size={15} className="text-gold-500" aria-hidden />
           <span>{event.displayDate}</span>
         </div>
         <div className="flex items-center justify-center gap-2">
-          <Clock size={15} className="text-gold-500" aria-hidden />
           <span>{event.time}</span>
         </div>
-        <div className="flex items-start justify-center gap-2 text-left">
-          <MapPin size={15} className="mt-0.5 shrink-0 text-gold-500" aria-hidden />
-          <span>
+        <div className="flex items-center justify-center gap-2 text-center">
+          <div className="flex flex-col items-center">
             <strong className="block text-ink">{event.venueName}</strong>
-            {event.venueAddress}
-          </span>
+            <span>{event.venueAddress}</span>
+          </div>
         </div>
       </div>
 

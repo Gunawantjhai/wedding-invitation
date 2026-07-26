@@ -40,7 +40,7 @@ export const BRIDE: PersonProfile = {
   nickname: "Vyro",
   childOrder: "Putri bungsu dari",
   parents: {
-    father: "Bapak Huang Se Leng",
+    father: "Bapak Ng Se Leng",
     mother: "Ibu Tan A Pin",
   },
   photo: "/images/bride.jpg",
@@ -86,7 +86,7 @@ export const EVENTS: WeddingEvent[] = [
     date: "2027-01-24T09:00:00+07:00",
     displayDate: "Minggu, 24 Januari 2027",
     time: "11:00 – 13:00 WIB",
-    venueName: "The Zuri Hotel Pekanbaru by ZHM",
+    venueName: "The Zuri Pekanbaru by ZHM",
     venueAddress: "Kompleks Transmart, Jl. Soekarno-Hatta, Pekanbaru - Riau",
     mapsUrl: "https://maps.app.goo.gl/hY1rGaRh65wPVKZR7",
   },
@@ -96,8 +96,8 @@ export const EVENTS: WeddingEvent[] = [
     subtitle: "Resepsi Pernikahan",
     date: "2027-01-24T09:00:00+07:00",
     displayDate: "Minggu, 24 Januari 2027",
-    time: "11:00 – 13:00 WIB",
-    venueName: "Grand Ballroom - The Zuri Hotel Pekanbaru by ZHM",
+    time: "19:00 – 22:00 WIB",
+    venueName: "Grand Ballroom - The Zuri Pekanbaru by ZHM",
     venueAddress: "Kompleks Transmart, Jl. Soekarno-Hatta, Pekanbaru - Riau",
     mapsUrl: "https://maps.app.goo.gl/hY1rGaRh65wPVKZR7",
   },
@@ -133,6 +133,6 @@ export const MUSIC_TRACK_URL = "/audio/wedding-theme.mp3";
 export const SITE_META = {
   title: "Gunawan & Vyronika — Wedding Invitation",
   description:
-    "Undangan pernikahan digital Gunawan & Vyro, 12 September 2027. Dengan penuh syukur, kami mengundang Bapak/Ibu/Saudara/i untuk turut hadir merayakan hari bahagia kami.",
+    "Undangan pernikahan digital Gunawan & Vyronika, 24 Januari 2027. Dengan penuh syukur, kami mengundang Bapak/Ibu/Saudara/i untuk turut hadir merayakan hari bahagia kami.",
   url: process.env.NEXT_PUBLIC_SITE_URL ?? "https://gunawan-vyro.wedding",
 };
