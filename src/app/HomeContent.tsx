@@ -6,7 +6,6 @@ import { Cover } from "@/components/Cover/Cover";
 import { Hero } from "@/components/Hero/Hero";
 import { Countdown } from "@/components/Countdown/Countdown";
 import { CoupleProfile } from "@/components/CoupleProfile/CoupleProfile";
-import { LoveStory } from "@/components/LoveStory/LoveStory";
 import { EventDetails } from "@/components/EventDetails/EventDetails";
 import { Gallery } from "@/components/Gallery/Gallery";
 import { RSVP } from "@/components/RSVP/RSVP";

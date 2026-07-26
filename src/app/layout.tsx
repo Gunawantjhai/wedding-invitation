@@ -2,6 +2,8 @@ import type { Metadata, Viewport } from "next";
 import { Playfair_Display, Noto_Serif_SC, Jost } from "next/font/google";
 import { MusicProvider } from "@/components/MusicPlayer/MusicProvider";
 import { SITE_META, COUPLE } from "@/constants/wedding";
+/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */
+// @ts-ignore
 import "./globals.css";
 
 const playfair = Playfair_Display({
@@ -53,14 +55,15 @@ export const viewport: Viewport = {
 
 import { normalizeLocale } from "@/i18n/locales";
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
   params,
 }: {
   children: React.ReactNode;
-  params: { locale?: string };
+  params: Promise<{ locale?: string }>;
 }) {
-  const locale = normalizeLocale(params.locale);
+  const { locale: localeParam } = await params;
+  const locale = normalizeLocale(localeParam);
   const htmlLang = locale === "ch" ? "zh" : locale;
 
   return (
