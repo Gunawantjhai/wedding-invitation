@@ -28,11 +28,40 @@ export async function copyToClipboard(text: string): Promise<boolean> {
   }
 }
 
-/** Reads the `?to=` query param used to personalize the cover greeting. */
+/** Reads the `?to=` query param used to personalize the cover greeting and RSVP form. */
 export function getGuestNameFromSearchParams(
   searchParams: URLSearchParams
 ): string | null {
-  const to = searchParams.get("to");
-  if (!to) return null;
-  return decodeURIComponent(to.replace(/\+/g, " "));
+  const rawQuery =
+    typeof window !== "undefined"
+      ? window.location.search
+      : searchParams.toString();
+
+  if (!rawQuery) return null;
+
+  const query = rawQuery.startsWith("?") ? rawQuery.slice(1) : rawQuery;
+  const toIndex = query.indexOf("to=");
+
+  if (toIndex === -1) return null;
+
+  const valueStart = toIndex + 3;
+  let valueEnd = query.length;
+  const remainder = query.slice(valueStart);
+  const nextParamIndex = remainder.indexOf("&");
+
+  if (nextParamIndex !== -1) {
+    const candidate = remainder.slice(nextParamIndex + 1);
+    if (candidate.includes("=")) {
+      valueEnd = valueStart + nextParamIndex;
+    }
+  }
+
+  const rawValue = query.slice(valueStart, valueEnd);
+  const decoded = decodeURIComponent(rawValue.replace(/\+/g, " "));
+
+  return decoded
+    .split("&")
+    .map((part) => part.trim())
+    .filter(Boolean)
+    .join(" & ");
 }

@@ -1,10 +1,12 @@
 "use client";
 
-import { useState, type FormEvent, type ReactNode } from "react";
+import { useEffect, useState, type FormEvent, type ReactNode } from "react";
+import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Loader2, Send, CheckCircle2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { submitRSVP, RSVPServiceError } from "@/lib/rsvp";
+import { getGuestNameFromSearchParams } from "@/lib/utils";
 import type { AttendanceStatus, RSVPFormState } from "@/types";
 import type { WeddingContent } from "@/i18n/locales";
 
@@ -21,11 +23,22 @@ interface RSVPFormProps {
 }
 
 export function RSVPForm({ onSubmitted, content }: RSVPFormProps) {
-  const [form, setForm] = useState<RSVPFormState>(initialState);
+  const searchParams = useSearchParams();
+  const guestName = getGuestNameFromSearchParams(searchParams);
+  const [form, setForm] = useState<RSVPFormState>({
+    ...initialState,
+    guest_name: guestName ?? "",
+  });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
     "idle"
   );
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    if (guestName) {
+      setForm((prev) => ({ ...prev, guest_name: guestName }));
+    }
+  }, [guestName]);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -35,7 +48,10 @@ export function RSVPForm({ onSubmitted, content }: RSVPFormProps) {
     try {
       await submitRSVP(form);
       setStatus("success");
-      setForm(initialState);
+      setForm({
+        ...initialState,
+        guest_name: guestName ?? "",
+      });
       onSubmitted?.();
     } catch (err) {
       setStatus("error");
@@ -84,6 +100,7 @@ export function RSVPForm({ onSubmitted, content }: RSVPFormProps) {
           onChange={(e) => setForm({ ...form, guest_name: e.target.value })}
           placeholder={content.copy.rsvp.namePlaceholder}
           className="input"
+          disabled={Boolean(guestName)}
         />
       </Field>
 

@@ -6,6 +6,7 @@ import { Cover } from "@/components/Cover/Cover";
 import { Hero } from "@/components/Hero/Hero";
 import { Countdown } from "@/components/Countdown/Countdown";
 import { CoupleProfile } from "@/components/CoupleProfile/CoupleProfile";
+import { LoveStory } from "@/components/LoveStory/LoveStory";
 import { EventDetails } from "@/components/EventDetails/EventDetails";
 import { Gallery } from "@/components/Gallery/Gallery";
 import { RSVP } from "@/components/RSVP/RSVP";
@@ -15,8 +16,10 @@ import { Footer } from "@/components/Footer/Footer";
 import { LocaleSwitcher } from "@/components/ui/LocaleSwitcher";
 import { getGuestNameFromSearchParams } from "@/lib/utils";
 
+let coverOpened = false;
+
 export function HomeContent() {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isOpen, setIsOpen] = useState(coverOpened);
   const [wishesRefresh, setWishesRefresh] = useState(0);
   const searchParams = useSearchParams();
   const guestName = getGuestNameFromSearchParams(searchParams);
@@ -29,6 +32,11 @@ export function HomeContent() {
     };
   }, [isOpen]);
 
+  const handleOpen = () => {
+    coverOpened = true;
+    setIsOpen(true);
+  };
+
   return (
     <main className="relative">
       <LocaleSwitcher />
@@ -36,7 +44,7 @@ export function HomeContent() {
       <Cover
         isOpen={isOpen}
         guestName={guestName}
-        onOpen={() => setIsOpen(true)}
+        onOpen={handleOpen}
       />
 
       <Hero />
