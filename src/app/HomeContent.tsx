@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams } from "next/navigation";
 import { Cover } from "@/components/Cover/Cover";
 import { Hero } from "@/components/Hero/Hero";
 import { Countdown } from "@/components/Countdown/Countdown";
@@ -21,11 +20,12 @@ export function HomeContent() {
   const [isOpen, setIsOpen] = useState(coverOpened);
   const [isHydrated, setIsHydrated] = useState(false);
   const [wishesRefresh, setWishesRefresh] = useState(0);
-  const searchParams = useSearchParams();
-  const guestName = getGuestNameFromSearchParams(searchParams);
+  const [guestName, setGuestName] = useState<string | null>(null);
 
   useEffect(() => {
     setIsHydrated(true);
+    const nextGuestName = getGuestNameFromSearchParams(window.location.search);
+    setGuestName(nextGuestName);
   }, []);
 
   // Lock body scroll while the cover is showing

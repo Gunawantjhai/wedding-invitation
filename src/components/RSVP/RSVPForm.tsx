@@ -1,7 +1,6 @@
 "use client";
 
 import { useEffect, useState, type FormEvent, type ReactNode } from "react";
-import { useSearchParams } from "next/navigation";
 import { motion } from "framer-motion";
 import { Loader2, Send, CheckCircle2, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -23,16 +22,20 @@ interface RSVPFormProps {
 }
 
 export function RSVPForm({ onSubmitted, content }: RSVPFormProps) {
-  const searchParams = useSearchParams();
-  const guestName = getGuestNameFromSearchParams(searchParams);
+  const [guestName, setGuestName] = useState<string | null>(null);
   const [form, setForm] = useState<RSVPFormState>({
     ...initialState,
-    guest_name: guestName ?? "",
+    guest_name: "",
   });
   const [status, setStatus] = useState<"idle" | "loading" | "success" | "error">(
     "idle"
   );
   const [errorMessage, setErrorMessage] = useState("");
+
+  useEffect(() => {
+    const nextGuestName = getGuestNameFromSearchParams(window.location.search);
+    setGuestName(nextGuestName);
+  }, []);
 
   useEffect(() => {
     if (guestName) {

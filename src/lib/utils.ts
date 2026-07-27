@@ -30,12 +30,13 @@ export async function copyToClipboard(text: string): Promise<boolean> {
 
 /** Reads the `?to=` query param used to personalize the cover greeting and RSVP form. */
 export function getGuestNameFromSearchParams(
-  searchParams: URLSearchParams
+  searchParams: URLSearchParams | string | null | undefined
 ): string | null {
   const rawQuery =
-    typeof window !== "undefined"
-      ? window.location.search
-      : searchParams.toString();
+    typeof searchParams === "string"
+      ? searchParams
+      : searchParams?.toString() ??
+        (typeof window !== "undefined" ? window.location.search : "");
 
   if (!rawQuery) return null;
 
